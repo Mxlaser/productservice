@@ -1,0 +1,31 @@
+services:
+  db:
+    image: yobasystems/alpine-mariadb:10.11.6
+    container_name: db_productservice
+    restart: "no"
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: pass123
+    ports:
+      - "3307:3306"
+    networks:
+      - dev
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin_productservice
+    restart: "no"
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+    networks:
+      - dev
+
+networks:
+  dev:
+
+volumes:
+  db-data:
